@@ -1,0 +1,133 @@
+# devkit CLI Configuration File Example
+# 
+# This file demonstrates all available configuration options for the devkit CLI.
+# Copy this file to .devkit.yaml in your current directory or home directory
+# and customize the values to suit your needs.
+#
+# Configuration search order:
+#   1. Current directory: ./.devkit.yaml
+#   2. Home directory: ~/.devkit.yaml
+#   3. Custom path via --config flag
+#
+# Command-line flags always override configuration file values.
+
+# ============================================================================
+# Global devkit settings
+# ============================================================================
+devkit:
+  # Default timeout for HTTP health checks
+  # Accepts duration strings like "5s", "30s", "1m", "500ms"
+  # Default: "5s"
+  timeout: "5s"
+  
+  # Default output format for all commands
+  # Valid values: "table", "json", "plain"
+  # Default: "table"
+  output: "table"
+  
+  # Default Slack webhook URL for notifications
+  # Used by the 'notify' command and 'watch' command alerts
+  # Leave empty if not using Slack notifications
+  # Example: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+  # Default: ""
+  slack_webhook: ""
+
+# ============================================================================
+# Watch command settings
+# ============================================================================
+watch:
+  # Polling interval for continuous monitoring
+  # Accepts duration strings like "30s", "1m", "5m"
+  # Default: "30s"
+  interval: "30s"
+  
+  # List of URLs to monitor continuously
+  # The watch command will check these URLs at the specified interval
+  # Example:
+  # urls:
+  #   - "https://example.com"
+  #   - "https://api.example.com/health"
+  #   - "https://example.com/status"
+  # Default: []
+  urls: []
+
+# ============================================================================
+# Example configurations for different use cases
+# ============================================================================
+
+# Example 1: Production monitoring with Slack alerts
+# ---------------------------------------------------
+# devkit:
+#   timeout: "10s"
+#   output: "table"
+#   slack_webhook: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX"
+# watch:
+#   interval: "60s"
+#   urls:
+#     - "https://api.production.com/health"
+#     - "https://www.production.com"
+#     - "https://admin.production.com/status"
+
+# Example 2: Development environment with fast polling
+# -----------------------------------------------------
+# devkit:
+#   timeout: "3s"
+#   output: "json"
+# watch:
+#   interval: "10s"
+#   urls:
+#     - "http://localhost:3000"
+#     - "http://localhost:8080/health"
+
+# Example 3: CI/CD pipeline with JSON output
+# -------------------------------------------
+# devkit:
+#   timeout: "15s"
+#   output: "json"
+#   slack_webhook: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX"
+
+# Example 4: Multiple service monitoring
+# ---------------------------------------
+# devkit:
+#   timeout: "5s"
+#   output: "table"
+#   slack_webhook: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX"
+# watch:
+#   interval: "30s"
+#   urls:
+#     - "https://api.example.com/health"
+#     - "https://web.example.com"
+#     - "https://auth.example.com/status"
+#     - "https://db.example.com/health"
+#     - "https://cache.example.com/ping"
+
+# ============================================================================
+# Usage Notes
+# ============================================================================
+#
+# 1. All configuration values can be overridden via command-line flags
+#    Example: devkit check --timeout 10s https://example.com
+#
+# 2. The slack_webhook can also be provided via the --webhook flag
+#    Example: devkit notify --webhook https://hooks.slack.com/... --message "Alert"
+#
+# 3. Duration values support these units:
+#    - "ns" (nanoseconds)
+#    - "us" or "µs" (microseconds)
+#    - "ms" (milliseconds)
+#    - "s" (seconds)
+#    - "m" (minutes)
+#    - "h" (hours)
+#
+# 4. Output formats:
+#    - "table": Human-readable table with colors (default)
+#    - "json": Machine-readable JSON format
+#    - "plain": Simple plain text format
+#
+# 5. When output is redirected (piped to file or another command),
+#    colors and progress bars are automatically disabled
+#
+# 6. For security, avoid committing .devkit.yaml with webhook URLs
+#    to version control. Use environment-specific config files or
+#    command-line flags for sensitive values.
+#
